@@ -19,7 +19,7 @@ load('SpkInfo.mat')
 Fs = 1250; % Sampling Frequency; needed for filtering and plotting
 % Theta/Delta state to analyze
 TD = 2; %High 1, Low 2, Full 3
-phase = 1; %0 Cortical layer is phase, 1 is hippocampal layer
+phase = 0; %0 Cortical layer is phase, 1 is hippocampal layer
 %%%%%%%%%%%%%%%%%%%%%%%%%
 switch phase
     case 0
@@ -40,7 +40,7 @@ winsize = 2*pi/18;
 position = nbin*winsize-pi;
 %% Stroke group to analyze
 % 1:4 6 ref Spk Info
-for group = [2:4 6]
+for group = [4 6]
     %% 1.Load the right and left side signals
     %load H/L TD indexes
     for animal = 1 : length(SpkInfo{group,2})
@@ -146,6 +146,7 @@ for group = [2:4 6]
             C = cLFP(:, SpkInfo{group,2}(animal).L_chn{1}(1));
             cort.L = C(TDIdx);
             %% Do filtering and Hilbert transform on CPU
+            try
             Comodulogram.R = single(zeros(length(PhaseFreqVector),length(AmpFreqVector)));
             Comodulogram.L = single(zeros(length(PhaseFreqVector),length(AmpFreqVector)));
             switch phase
@@ -220,6 +221,10 @@ for group = [2:4 6]
                         PhaseFreq = eegfilt(hippo.L' , Fs, Pf1, Pf2); % this is just filtering
                         PhaseFreqTransformed.L(jj, :) = angle(hilbert(PhaseFreq)); % this is getting the phase time series
                     end
+            end
+            catch
+                disp('Error during filtering')
+                continue
             end
             %% 7.Do comodulation calculation %: Right Side'
             counter1 = 0;
