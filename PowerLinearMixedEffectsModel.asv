@@ -1,0 +1,81 @@
+% runs a linear mixed-effects model against hemisphers and groups comparing
+% All groups separately.
+load('SpkInfo.mat')
+cd('C:\Users\user\Documents\MATLAB\Stats\Power')
+load('NormalizedPower.mat')
+% [Power][Group][Hemisphere]
+% Control 8:8
+% EESham  10:10
+% 1MStrk  9:9
+% 2WStrk  6:6
+% EEStrk  9:9
+
+
+% Group/hemisphere labels
+labels = cell(84,2);
+labels = labelMaker(16,0,labels,'Control');
+labels = labelMaker(20,16,labels,'EEControl');
+labels = labelMaker(18,36,labels,'1MStrk');
+labels = labelMaker(12,54,labels,'2WStrk');
+labels = labelMaker(18,66,labels,'EEStrk');
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+[cDelta,pDelta,sDelta,oDelta]     = createLme4FreqBand(1,NormalizedPower,labels);
+[cTheta,pTheta,sTheta,oTheta]     = createLme4FreqBand(2,NormalizedPower,labels);
+[cAlpha,pAlpha,sAlpha,oAlpha]     = createLme4FreqBand(3,NormalizedPower,labels);
+[cBeta,pBeta,sBeta,oBeta]         = createLme4FreqBand(4,NormalizedPower,labels);
+[cGamma,pGamma,sGamma,oGamma]     = createLme4FreqBand(5,NormalizedPower,labels);
+[cHGamma,pHGamma,sHGamma,oHGamma] = createLme4FreqBand(6,NormalizedPower,labels);
+
+function storage = labelMaker(lim,prev,storage,label)
+for i = 1:lim
+    storage{prev+i,1} = label;
+    if i > lim/2
+        storage{prev+i,2} = 'Ipsi';
+    else
+        storage{prev+i,2} = 'Contra';
+    end
+end
+end
+
+function [LME1,LME2,LME3,LME4] = createLme4FreqBand(group,source)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Cortex
+cData = [source{1,2}.R(5:end,group,1);         source{1,2}.L(5:end,group,1);
+              source{2,2}.R(:,group,1);             source{2,2}.L(:,group,1);
+              source{3,2}.R([1:4 6 8:end],group,1); source{3,2}.L([1:4 6 8:end],group,1);
+              source{4,2}.R(4:end,group,1);         source{4,2}.L(4:end,2,1);
+              source{6,2}.R([1:4 6:end],group,1);   source{6,2}.L([1:4 6:end],2,1)];
+% Create table
+cTable = table(cData(:,1),labels(:,1),labels(:,2),'VariableNames',{'Power','Group','Hemisphere'});
+LME1 = fitlme(cTable,'Power ~ 1 + Group + (1|Hemisphere)');
+
+% Pyramidal
+pData = [source{1,2}.R(5:end,group,2);         source{1,2}.L(5:end,group,2);
+              source{2,2}.R(:,group,2);             source{2,2}.L(:,group,2);
+              source{3,2}.R([1:4 6 8:end],group,2); source{3,2}.L([1:4 6 8:end],group,2);
+              source{4,2}.R(4:end,group,2);         source{4,2}.L(4:end,group,2);
+              source{6,2}.R([1:4 6:end],group,2);   source{6,2}.L([1:4 6:end],group,2)];
+% Create table
+pTable = table(pData(:,1),labels(:,1),labels(:,2),'VariableNames',{'Power','Group','Hemisphere'});
+LME2 = fitlme(pTable,'Power ~ 1 + Group + (1|Hemisphere)');
+
+% SLM 
+sData = [source{1,2}.R(5:end,group,3);         source{1,2}.L(5:end,group,3);
+              source{2,2}.R(:,group,3);             source{2,2}.L(:,group,3);
+              source{3,2}.R([1:4 6 8:end],group,3); source{3,2}.L([1:4 6 8:end],group,3);
+              source{4,2}.R(4:end,group,3);         source{4,2}.L(4:end,group,3);
+              source{6,2}.R([1:4 6:end],group,3);   source{6,2}.L([1:4 6:end],group,3)];
+% Create table
+sTable = table(sData(:,1),labels(:,1),labels(:,2),'VariableNames',{'Power','Group','Hemisphere'});
+LME3 = fitlme(sTable,'Power ~ 1 + Group + (1|Hemisphere)');
+
+% Oriens
+oData = [source{1,2}.R(5:end,group,4);         source{1,2}.L(5:end,group,4);
+              source{2,2}.R(:,group,4);             source{2,2}.L(:,group,4);
+              source{3,2}.R([1:4 6 8:end],group,4); source{3,2}.L([1:4 6 8:end],group,4);
+              source{4,2}.R(4:end,group,4);         source{4,2}.L(4:end,group,4);
+              source{6,2}.R([1:4 6:end],group,4);   source{6,2}.L([1:4 6:end],group,4)];
+% Create table
+oTable = table(oData(:,1),labels(:,1),labels(:,2),'VariableNames',{'Power','Group','Hemisphere'});
+LME4 = fitlme(oTable,'Power ~ 1 + Group + (1|Hemisphere)');
+end

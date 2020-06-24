@@ -7,34 +7,40 @@ load('Colors.mat')
 
 % Scale bars and indices
 time = linspace(-1,1,2501);
-ysize = linspace(-6e+03, 2e+03,10);
+ySize = linspace(-6e+03, 2e+03,10);
 electrodes = 1:10;
 hotcold = redblue();
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 figure
 set(gcf,'Position',[0 0 1500 1000])
 % top left box, Control CSD
-subplot('Position',[0.25 0.55 0.2 0.35])
-pcolor(time,ysize,flipud(bar_block(1).R_CSD'))
-shading flat, colormap(flipud(hotcold))
-caxis([-0.12 0.12])
-hold on
-plot(time,bar_block(1).R_wave,'color',Lin.dBlue)
+subplot('Position',[0.18 0.55 0.2 0.35])
+
+pcolor(time,ySize,flipud(bar_block(1).R_CSD'))
+shading interp, colormap(flipud(hotcold))
+caxis([-0.10 0.10])
 set(gca,'xtick',[],'yticklabel',electrodes)
 ylabel('Electrode')
+hold on
+plot(time,bar_block(1).R_wave,'color',Buz.mBlue)
+ylim([-5000 2000])
+
+
 title('Control')
 
 
 % top middle box, EE Control CSD
-subplot('Position',[0.5 0.55 0.2 0.35])
-pcolor(time,ysize,flipud(bar_block(2).R_CSD'))
-shading flat, colormap(flipud(hotcold))
-caxis([-0.12 0.12])
-hold on
-plot(time,bar_block(2).R_wave,'color',Lin.dBlue)
-set(gca,'ytick',electrodes)
-axis off
+subplot('Position',[0.43 0.55 0.2 0.35])
+colororder({'k','k'})
+yyaxis left
+pcolor(time,ySize,flipud(bar_block(2).R_CSD'))
+set(gca, 'xtick',[],'ytick', [])
+shading interp, colormap(flipud(hotcold))
+caxis([-0.05 0.05])
+yyaxis right
+plot(time,bar_block(2).R_wave,'color',Buz.mBlue)
+ylim([-6e+03 2e+03])
+ylabel('Voltage (\muV)')
 title('EE Control')
 
 % top right box, bar multiple comparison
@@ -58,48 +64,53 @@ set(gca, 'ytick',[0 0.05 0.1],'xticklabels',labels)
 box off
 sigs = sigstar2(comp_group, stats);
 title('Source-Sink Amplitude')
-hbar.CData(1,:) = Lin.mBlue; % [0.8 0.8 0.8];
-hbar.CData(2,:) = Lin.mBlue; % [0.8 0.8 0.8];
-hbar.CData(3,:) = Lin.mOrange;
-hbar.CData(4,:) = Lin.mOrange;
-hbar.CData(5,:) = Lin.mOrange;
+hbar.CData(1,:) = Buz.lBlue;
+hbar.CData(2,:) = Buz.lBlue;
+hbar.CData(3,:) = Buz.lYellow;
+hbar.CData(4,:) = Buz.lYellow;
+hbar.CData(5,:) = Buz.lYellow;
 
 % Bottom left box, 1M Strk CSD
-subplot('Position',[0.25 0.1 0.2 0.35])
-pcolor(time,ysize,flipud(bar_block(3).R_CSD'))
-shading flat, colormap(flipud(jet))
+subplot('Position',[0.18 0.1 0.2 0.35])
+pcolor(time,ySize,flipud(bar_block(3).R_CSD'))
+shading interp, colormap(flipud(jet))
 caxis([-0.12 0.12])
 hold on
-plot(time,bar_block(3).R_wave,'color',Lin.dOrange)
+plot(time,bar_block(3).R_wave,'color', Buz.mYellow)
 set(gca,'yticklabel',electrodes)
 title('1 Month Stroke')
 ylabel('Electrode')
 xlabel('Time (s)')
 
 % Bottom middle box, 2W Strk CSD
-subplot('Position',[0.5 0.1 0.2 0.35])
-pcolor(time,ysize,flipud(bar_block(4).R_CSD'))
-shading flat, colormap(flipud(parula))
+subplot('Position',[0.43 0.1 0.2 0.35])
+pcolor(time,ySize,flipud(bar_block(4).R_CSD'))
+shading interp, colormap(flipud(parula))
 caxis([-0.12 0.12])
 hold on
-plot(time,bar_block(4).R_wave,'color',Lin.dOrange)
+plot(time,bar_block(4).R_wave,'color',Buz.mYellow)
 set(gca,'ytick',[])
 title('2 Week Stroke')
 xlabel('Time (s)')
 
 % Bottom right box, EE Strk CSD
-subplot('Position',[0.75 0.1 0.2 0.35])
-pcolor(time,ysize,flipud(bar_block(6).R_CSD'))
-shading flat, colormap(flipud(hotcold))
-caxis([-0.12 0.12])
-hold on
-plot(time,bar_block(6).R_wave,'color',Lin.dOrange)
+subplot('Position',[0.68 0.1 0.2 0.35])
+colororder({'k','k'})
+yyaxis left
+pcolor(time,ySize,flipud(bar_block(6).R_CSD'))
 set(gca,'ytick',[])
+shading interp, colormap(flipud(hotcold))
+caxis([-0.12 0.12])
+yyaxis right
+plot(time,bar_block(6).R_wave,'color',Buz.mYellow)
+ylim([-6e+03 2e+03])
+ylabel('                 Voltage (\muV)')
+
 title('EE Month Stroke')
 xlabel('Time (s)')
 
 % Left side colorbar
-cbar = colorbar('Position',[0.1 0.1 0.05 0.8]);
+cbar = colorbar('Position',[0.08 0.3 0.03 0.4]);
 cbar.Label.String = 'Current (\muA / mm^3)';
 cbar.TickDirection = 'in';
 
@@ -111,11 +122,11 @@ figure
 set(gcf,'Position',[1000 0 1500 1000])
 % top left box, Control CSD
 subplot('Position',[0.25 0.55 0.2 0.35])
-pcolor(time,ysize,flipud(bar_block(1).L_CSD'))
-shading flat, colormap(flipud(hotcold))
+pcolor(time,ySize,flipud(bar_block(1).L_CSD'))
+shading interp, colormap(flipud(hotcold))
 caxis([-0.12 0.12])
 hold on
-plot(time,bar_block(1).L_wave,'color',Lin.dBlue)
+plot(time,bar_block(1).L_wave,'color',RGB.dSky)
 set(gca,'xtick',[],'yticklabel',electrodes)
 ylabel('Electrode')
 title('Control')
@@ -123,11 +134,11 @@ title('Control')
 
 % top middle box, EE Control CSD
 subplot('Position',[0.5 0.55 0.2 0.35])
-pcolor(time,ysize,flipud(bar_block(2).L_CSD'))
-shading flat, colormap(flipud(hotcold))
+pcolor(time,ySize,flipud(bar_block(2).L_CSD'))
+shading interp, colormap(flipud(hotcold))
 caxis([-0.12 0.12])
 hold on
-plot(time,bar_block(2).L_wave,'color',Lin.dBlue)
+plot(time,bar_block(2).L_wave,'color',RGB.dSky)
 set(gca,'ytick',electrodes)
 axis off
 title('EE Control')
@@ -153,19 +164,19 @@ set(gca, 'ytick',[0 0.05 0.1],'xticklabels',labels)
 box off
 sigs = sigstar2(comp_group, stats);
 title('Source-Sink Amplitude')
-hbar.CData(1,:) = Lin.mBlue; % [0.8 0.8 0.8];
-hbar.CData(2,:) = Lin.mBlue; % [0.8 0.8 0.8];
-hbar.CData(3,:) = Lin.mOrange;
-hbar.CData(4,:) = Lin.mOrange;
-hbar.CData(5,:) = Lin.mOrange;
+hbar.CData(1,:) = RGB.mSky; % [0.8 0.8 0.8];
+hbar.CData(2,:) = RGB.mSky; % [0.8 0.8 0.8];
+hbar.CData(3,:) = RGB.mYellowOrange;
+hbar.CData(4,:) = RGB.mYellowOrange;
+hbar.CData(5,:) = RGB.mYellowOrange;
 
 % Bottom left box, 1M Strk CSD
 subplot('Position',[0.25 0.1 0.2 0.35])
-pcolor(time,ysize,flipud(bar_block(3).L_CSD'))
-shading flat, colormap(flipud(jet))
+pcolor(time,ySize,flipud(bar_block(3).L_CSD'))
+shading interp, colormap(flipud(jet))
 caxis([-0.12 0.12])
 hold on
-plot(time,bar_block(3).L_wave,'color',Lin.dOrange)
+plot(time,bar_block(3).L_wave,'color',RGB.dYellowOrange)
 set(gca,'yticklabel',electrodes)
 title('1 Month Stroke')
 ylabel('Electrode')
@@ -173,28 +184,28 @@ xlabel('Time (s)')
 
 % Bottom middle box, 2W Strk CSD
 subplot('Position',[0.5 0.1 0.2 0.35])
-pcolor(time,ysize,flipud(bar_block(4).L_CSD'))
-shading flat, colormap(flipud(parula))
+pcolor(time,ySize,flipud(bar_block(4).L_CSD'))
+shading interp, colormap(flipud(parula))
 caxis([-0.12 0.12])
 hold on
-plot(time,bar_block(4).L_wave,'color',Lin.dOrange)
+plot(time,bar_block(4).L_wave,'color',RGB.dYellowOrange)
 set(gca,'ytick',[])
 title('2 Week Stroke')
 xlabel('Time (s)')
 
 % Bottom right box, EE Strk CSD
 subplot('Position',[0.75 0.1 0.2 0.35])
-pcolor(time,ysize,flipud(bar_block(6).L_CSD'))
-shading flat, colormap(flipud(hotcold))
+pcolor(time,ySize,flipud(bar_block(6).L_CSD'))
+shading interp, colormap(flipud(hotcold))
 caxis([-0.12 0.12])
 hold on
-plot(time,bar_block(6).L_wave,'color',Lin.dOrange)
+plot(time,bar_block(6).L_wave,'color',RGB.dYellowOrange)
 set(gca,'ytick',[])
 title('EE Month Stroke')
 xlabel('Time (s)')
 
 % Left side colorbar
-cbar = colorbar('Position',[0.1 0.1 0.05 0.8]);
+cbar = colorbar('Position',[0.12 0.3 0.03 0.4]);
 cbar.Label.String = 'Current (\muA / mm^3)';
 cbar.TickDirection = 'in';
 
