@@ -37,7 +37,6 @@ for i = 6
     
     phaseRange = phaseLow*2+1:phaseHigh*2;
     ampRange = ampLow/2.5 +1 : ampHigh/2.5;
-    window = length(ampRange)*length(phaseRange);
     
     filepath = 'C:\Users\user\Documents\MATLAB';
     cd(filepath)
@@ -48,22 +47,18 @@ for i = 6
     lData = [];
     files = dir;
     files = extractfield(files,'name');
-    
-    for i = 1:9
-        files(ismember(files,['2W Strk_' num2str(i)])) = [];
-    end
-    
-    for animal = 3:length(files)
+    files = files(3:end)';
+    for animal = 1:length(files)
         und = strfind(files{animal},'_');
         fullName = char(files{animal});
         fullName = fullName(1:und-1);
         switch fullName
             case '1M Strk'
                 group = 'Stroke';
-                treat = 'No';
+                treat = 'Std';
             case 'Control'
                 group = 'Control';
-                treat = 'No';
+                treat = 'Std';
             case 'EE Sham'
                 group = 'Control';
                 treat = 'EE';
@@ -75,62 +70,54 @@ for i = 6
         treatLabel{animal} = treat;
         cd(files{animal})
         load (['H_' file '.mat'])
-        rData = [rData mean(mean(Comodulogram.R(phaseRange,ampRange)))]; % Store all the working Comodulograms in a struct
-        lData = [lData mean(mean(Comodulogram.L(phaseRange,ampRange)))];
+        rData(animal) = mean(mean(Comodulogram.R(phaseRange,ampRange))); % Store all the working Comodulograms in a struct
+        lData(animal) = mean(mean(Comodulogram.L(phaseRange,ampRange)));
         cd ..
     end
-    treatLabel = treatLabel(3:39);
-    groupLabel = groupLabel(3:39);
+    
+    % 2 WAY ANOVA
+    treatLabel = treatLabel([1:10 18:end]);
+    groupLabel = groupLabel([1:10 18:end]);
+    rData2 = rData([1:10 18:end]);
+    lData2 = lData([1:10 18:end]);
     % Run anova and multcompare
-    [~,~,rS] = anovan(rData,{groupLabel,treatLabel},'display','off');
-    [~,~,lS] = anovan(lData,{groupLabel,treatLabel},'display','off');
+    [~,rT2,rS2] = anovan(rData2,{treatLabel,groupLabel},'display','off');
+    [~,lT2,lS2] = anovan(lData2,{treatLabel,groupLabel},'display','off');
     
     %C structure: 1&2: Which groups were compared, 4: Difference between
     %estimated group means, 3&5: lower and upper 95% confidence interval. 6:
     %pVal
-    [rC,rM,~,rNames] = multcompare(rS,'CType','bonferroni'); % ,'Display','off');
-    input('Contralesional')
-    [lC,lM,~,lNames] = multcompare(lS,'CType','bonferroni'); % ,'Display','off');
-    input('Ipsilesional')
-end
-%%
-R.mean = [mean(rData(11:18));
-    mean(rData(1:10));
+    [rC2,rM2,~,rNames2] = multcompare(rS2,'Dimension',[1 2],'CType','bonferroni','Display','off');
     
-    mean
+    [lC2,lM2,~,lNames2] = multcompare(lS2,'Dimension',[1 2],'CType','bonferroni','Display','off');
+  
+    % 1 WAY ANOVA
+    labels = {'Ctrl','1MS','2WS'};
+    rData1 = NaN(10,3);
+    lData1 = NaN(10,3);
+    
+    rData1(1:8,1)  = rData(18:25);
+    rData1(1:7,2)  = rData(11:17);
+    rData1(1:10,3) = rData(1:10);
+    
+       
+    lData1(1:8,1)  = lData(18:25);
+    lData1(1:7,2)  = lData(11:17);
+    lData1(1:10,3) = lData(1:10);
 
-save(['C:\Users\user\Documents\MATLAB\Stats\PAC\H_' file '_P' num2str(phaseLow) '-' num2str(phaseHigh) '_A' num2str(ampLow) '-' num2str(ampHigh) '_G'],'rS','rC','rM','lS','lC','lM');
-cd ..
-rStat = [rC(:,1) rC(:,2) rC(:,6)];
-figure
-BarErrSig(rM(:,1),rM(:,2),rStat);
-title('Right')
-
-lStat = [lC(:,1) lC(:,2) lC(:,6)];
-figure
-BarErrSig(lM(:,1),lM(:,2),lStat);
-title('Left')
-
-
-
-disp('All Done!')
-
-
-function BarErrSig(vals, ers, p)
-load('Colors.mat');
-[b, e] = barwitherr(ers,vals);
-box off
-b.FaceColor = 'flat';
-b.CData(1,:) = RGB.plBlue;
-b.CData(2,:) = RGB.pllBlue;
-b.CData(3,:) = RGB.plOrange;
-b.CData(4,:) = RGB.plOrange;
-b.CData(5,:) = RGB.pllOrange;
-
-for i = 1:length(p)
-    if p(i,3) <= 0.05
-        sigstar2([p(i,1) p(i,2)],p(i,3));
-    end % if
-end % for
-
+    
+    [~,rT1,rS1] = anova1(rData1,labels,'off');
+    [~,lT1,lS1] = anova1(lData1,labels,'off');
+    
+    [rC1,rM1,~,rNames1] = multcompare(rS1,'CType','bonferroni','Display','off');
+    
+    
+    [lC1,lM1,~,lNames1] = multcompare(lS1,'CType','bonferroni','Display','off');
+    
+    save(['C:\Users\user\Documents\MATLAB\Stats\PAC\H_' file '_P' num2str(phaseLow) '-' num2str(phaseHigh) '_A' num2str(ampLow) '-' num2str(ampHigh) '_G'],...
+        'rC1','rM1','rNames1','lC1','lM1','rC2','rM2','rNames2','lC2','lM2');
+    disp(['Saved ' 'C:\Users\user\Documents\MATLAB\Stats\PAC\H_' file '_P' num2str(phaseLow) '-' num2str(phaseHigh) '_A' num2str(ampLow) '-' num2str(ampHigh) '_G'])
 end
+cd ..
+
+

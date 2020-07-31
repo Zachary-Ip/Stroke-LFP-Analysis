@@ -79,7 +79,7 @@ for group = [1:4 6]
         
         % mkdir(['C:\Users\ipzach\Documents\MATLAB\Comodulograms' filesep SpkInfo{group,1} '_' num2str(animal)])
         % % % % % % % % % % % % %
-        for layer = 2% :4
+        for layer = 3% :4
             switch layer
                 case 1
                     layertitle = 'C'; % Cortex
@@ -268,7 +268,7 @@ for group = [1:4 6]
             disp('saving')
             switch phase
                 case 0
-                    save(['C:\Users\user\Documents\MATLAB\Comodulograms' filesep SpkInfo{group,1} '_' num2str(animal) filesep REMtitle '_PP_A' layertitle '_HD'], 'Comodulogram','hippo','cort');
+                    save(['C:\Users\user\Documents\MATLAB\Comodulograms' filesep SpkInfo{group,1} '_' num2str(animal) filesep REMtitle '_PC_A' layertitle '_HD'], 'Comodulogram','hippo','cort');
                 case 1
                     save(['C:\Users\ipzach\Documents\MATLAB\Comodulograms' filesep SpkInfo{group,1} '_' num2str(animal) filesep REMtitle '_P' layertitle '_AC_HD'], 'Comodulogram','hippo','cort');
             end

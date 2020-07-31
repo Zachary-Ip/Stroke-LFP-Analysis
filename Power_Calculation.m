@@ -94,25 +94,9 @@ for group = [1:4 6]
                 L_envelope = abs(hilbert(L_Filter(:,band)));
                 L_Smoothed = smoothvect(L_envelope, kernel);
                 
-                
                 %% Calculate Power
-                % Pull specific T-D frames if splitting
-                
-                Power_R = [];
-                Power_L = [];
-                %Right
-                Band_R = R_Smoothed;
-                
-                Power_R = SignalPower(Band_R, Fs);
-                % Save Power calculation
-                
-                NormalizedPower{group,2}.R(animal,band,layer) = Power_R;
-                
-                %Left
-                Band_L = L_Smoothed;
-                Power_L = SignalPower(Band_L, Fs);
-                % Save Power calculation
-                NormalizedPower{group,2}.L(animal,band,layer) = Power_L;
+                NormalizedPower{group,1}.R(animal,band,layer) = SignalPower(R_Smoothed, Fs);
+                NormalizedPower{group,1}.L(animal,band,layer) = SignalPower(L_Smoothed, Fs);
                 
             end % Each band Combo
         end% Layer combo

@@ -6,9 +6,9 @@
 clear all
 % Which phase and amplitude layer to run stats on
 % P- C,P,O,S - which phase variable, cortex, pyramidal, oriens, SLM
-% A_ C,P,O,S - which amplitude variable, same abbreviations
+% A- C,P,O,S - which amplitude variable, same abbreviations
 
-filepath = 'C:\Users\ipzach\Documents\MATLAB';
+filepath = 'C:\Users\user\Documents\MATLAB';
 cd(filepath)
 load('SpkInfo.mat')
 cd('Comodulograms')
@@ -34,7 +34,7 @@ for grouping = 3 % 1:5
         end
         disp(file)
         % Define window of comodulogram to view
-        for frame = 4 % 1:4
+        for frame = 3 % 1:4
             switch frame
                 case 1
                     phaseLow  = 4; % Phase values must be multiples of 0.5
@@ -129,7 +129,7 @@ for grouping = 3 % 1:5
             
         end
     end
-    save(['C:\Users\ipzach\Documents\MATLAB\Stats\PAC\' name ' Stats'],'stats')
+    save(['C:\Users\user\Documents\MATLAB\Stats\PAC\' name ' Stats'],'stats')
     disp([name 'done'])
     % save here for each layer combo
 end
