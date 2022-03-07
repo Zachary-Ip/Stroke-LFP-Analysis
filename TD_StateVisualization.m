@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %clearvars
 %% Load Files
-filepath = 'C:\Users\user\Documents\MATLAB\stroke_signal_processing';
+filepath = 'C:\Users\ipzach\Documents\MATLAB\stroke_signal_processing';
 cd(filepath)
 load('SpkInfo.mat')
 Fs = 1250;
@@ -21,7 +21,7 @@ group = 1; %[1:4 6]
 % animal picks which specific animal 
 animal = 7; % [1:size(SpkInfo{i,2},2)
 % Load file
-activefilepath = ['C:\Users\user\Documents\MATLAB\Data\' SpkInfo{group,1} '_' num2str(animal)  '\concatenatedLFP.mat'];
+activefilepath = ['C:\Users\ipzach\Documents\MATLAB\Data\' SpkInfo{group,1} '_' num2str(animal)  '\concatenatedLFP.mat'];
 load(activefilepath);
 
 Control = cLFP(:,SpkInfo{group,2}(animal).R_chn{3}(1));
@@ -29,7 +29,7 @@ Control = cLFP(:,SpkInfo{group,2}(animal).R_chn{3}(1));
 % Stroke LFP
 group = 3; %[1:4 6] % 3
 animal = 10; % [1:size(SpkInfo{i,2},2) % 10
-activefilepath = ['C:\Users\user\Documents\MATLAB\Data\' SpkInfo{group,1} '_' num2str(animal)  '\concatenatedLFP.mat'];
+activefilepath = ['C:\Users\ipzach\Documents\MATLAB\Data\' SpkInfo{group,1} '_' num2str(animal)  '\concatenatedLFP.mat'];
 load(activefilepath);
 
 Stroke = cLFP(:,SpkInfo{group,2}(animal).R_chn{3}(1));
@@ -88,26 +88,26 @@ hold on
 % Plotting
 % Raw Filters 
 ax1 = subplot('Position',[0.15 0.7666 0.37 0.1333]);
-plot(timeC,Theta_C,'Color',Lin.mTeal); ylabel('\theta (3-7 Hz)')
+plot(timeC,Theta_C); ylabel('\theta (3-7 Hz)')
 title('Control','FontSize',14);
 set(gca, 'xtick',[],'ytick',[],'FontSize',13)
 axis([0  inf -20000 20000])
 box off
 
 ax2 = subplot('Position',[0.55 0.7666 0.37 0.1333]);
-plot(timeS,Theta_S,'Color',Lin.mPurple)
+plot(timeS,Theta_S)
 title('Stroke');
 set(gca, 'xtick',[],'ytick',[],'FontSize',14)
 axis([0  inf -20000 20000])
 box off
 
 ax3 = subplot('Position',[0.15 0.6333 0.37 0.1333]);
-plot(timeC,Delta_C,'Color',Lin.dTeal);ylabel('\delta (0.1-3 Hz)')
+plot(timeC,Delta_C);ylabel('\delta (0.1-3 Hz)')
 set(gca, 'xtick',[],'ytick',[],'FontSize',14)
 axis([0  inf -20000 20000])
 box off
 ax4 = subplot('Position',[0.55 0.6333 0.37 0.1333]);
-plot(timeS,Delta_S,'Color',Lin.dPurple)
+plot(timeS,Delta_S)
 set(gca, 'xtick',[],'ytick',[],'FontSize',14)
 axis([0  inf -20000 20000])
 box off
@@ -139,38 +139,38 @@ box off
 
 % Positive envelope
 ax9 = subplot('Position',[0.15 0.5 0.37 0.1333]);
-plot(timeC,S_Theta_C,'Color',Lin.mTeal), ylabel({'\theta envelope'})
+plot(timeC,S_Theta_C), ylabel({'\theta envelope'})
 set(gca, 'xtick',[],'ytick',[],'FontSize',14)
 axis([0  inf 0 10000])
 box off
 
 ax10 = subplot('Position',[0.55 0.5 0.37 0.1333]);
-plot(timeS,S_Theta_S,'Color',Lin.mPurple)
+plot(timeS,S_Theta_S)
 set(gca, 'xtick',[],'ytick',[],'FontSize',14)
 axis([0  inf 0 10000])
 box off
 
 ax11 = subplot('Position',[0.15 0.3666 0.37 0.1333]);
-plot(timeC,S_Delta_C,'Color',Lin.dTeal);ylabel('\delta envelope')
+plot(timeC,S_Delta_C);ylabel('\delta envelope')
 set(gca, 'xtick',[],'ytick',[],'FontSize',14)
 axis([0  inf 0 10000])
 box off
 
 ax12 = subplot('Position',[0.55 0.3666 0.37 0.1333]);
-plot(timeS,S_Delta_S,'Color',Lin.dPurple)
+plot(timeS,S_Delta_S)
 set(gca, 'xtick',[],'ytick',[],'FontSize',14)
 axis([0  inf 0 10000])
 box off
 
 % Smoothed Plots
 ax13 = subplot('Position',[0.15 0.233 0.37 0.1333]);
-plot(timeC,Theta_Delta_C,'Color', Lin.dTeal);ylabel({'\theta / \delta'})
+plot(timeC,Theta_Delta_C);ylabel({'\theta / \delta'})
 set(gca, 'xtick',[],'ytick',[],'FontSize',14)
 axis([0  inf 0 3])
 box off
 
 ax14 = subplot('Position',[0.55 0.2333 0.37 0.1333]);
-plot(timeS,Theta_Delta_S,'Color', Lin.dPurple)
+plot(timeS,Theta_Delta_S)
 set(gca, 'xtick',[],'ytick',[],'FontSize',14)
 axis([0  inf 0 3])
 box off
@@ -186,7 +186,7 @@ for i = 1:length(C_idx)
     patch([C_idx(1,i)/Fs C_idx(1,i)/Fs C_idx(2,i)/Fs C_idx(2,i)/Fs],[0 3 3 0],'k','EdgeColor','none')
 end
 alpha(0.3)
-plot(timeC, S_Theta_Delta_C,'Color', Lin.mTeal,'LineWidth',1.5);
+plot(timeC, S_Theta_Delta_C,'LineWidth',1.5);
 
 box off
 ylabel({'\theta/\delta Smoothed'});
@@ -204,7 +204,7 @@ for i = 1:length(S_idx)
     patch([S_idx(1,i)/Fs S_idx(1,i)/Fs S_idx(2,i)/Fs S_idx(2,i)/Fs],[0 3 3 0],'k','EdgeColor','none')
 end
 alpha(0.3)
-plot(timeS, S_Theta_Delta_S,'Color', Lin.mPurple,'LineWidth',1.5);
+plot(timeS, S_Theta_Delta_S,'LineWidth',1.5);
 
 xlim([timeS(1) timeS(end)]);
 

@@ -3,7 +3,7 @@
 clear all;
 tic
 disp('Initializing Files')
-filepath = 'C:\Users\user\Documents\MATLAB';
+filepath = 'C:\Users\ipzach\Documents\MATLAB';
 cd(filepath)
 load('SpkInfo.mat')
 Fs = 1250;
@@ -26,11 +26,11 @@ for group = [1:4 6]
     for animal = files
         activefilepath = ['C:\Users\user\Documents\MATLAB\Data' filesep SpkInfo{group,1} '_' num2str(animal) filesep 'concatenatedLFP.mat'];
         load(activefilepath);
-        cLFP = cLFP .* voltConvert;
+        cLFP = cLFP .* voltConvert; % convert values to volts
         disp([SpkInfo{group,1} ' ' num2str(animal)])
         REMPath = ['C:\Users\user\Documents\MATLAB\Data' filesep SpkInfo{group,1} '_' num2str(animal) filesep 'cREM'];
         load(REMPath);
-        
+        % Double check for bad channels
         if isempty(cREM.L.start) || isempty(cREM.L.end)
             disp('Missing REM Start or End Times for Left Side')
             continue
@@ -65,8 +65,6 @@ for group = [1:4 6]
             
             R = ((LFP_R - R_Mean)/R_Std);
             L = ((LFP_L - L_Mean)/L_Std);
-            
-            
             %% Band Filtering
             DeltaFilter_R = BPfilter(R, Fs, 0.1, 3);
             ThetaFilter_R = BPfilter(R, Fs, 4, 7);
