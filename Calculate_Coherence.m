@@ -81,7 +81,7 @@ for group = [1:4 6]
             for iBand = 1:4
                 switch iBand
                     case 1
-                       range = [0.1 3];
+                        range = [0.1 3];
                     case 2
                         range = [4 7];
                     case 3
@@ -89,10 +89,10 @@ for group = [1:4 6]
                     case 4
                         range = [62 200];
                 end
-               AL_LFP = BPfilter(AL_LFP, Fs, range(1), range(2));
-               AR_LFP = BPfilter(AR_LFP, Fs, range(1), range(2));
-               BL_LFP = BPfilter(BL_LFP, Fs, range(1), range(2));
-               BR_LFP = BPfilter(BR_LFP, Fs, range(1), range(2));
+                AL_LFP = BPfilter(AL_LFP, Fs, range(1), range(2));
+                AR_LFP = BPfilter(AR_LFP, Fs, range(1), range(2));
+                BL_LFP = BPfilter(BL_LFP, Fs, range(1), range(2));
+                BR_LFP = BPfilter(BR_LFP, Fs, range(1), range(2));
                 
                 % Loading Right Side LFPs
                 TDIdx = []; % Array for relevant data points indices
@@ -159,18 +159,18 @@ for group = [1:4 6]
                     disp(['Coherence for ' SpkInfo{group,1} num2str(animal) ' Right not calculated'])
                     
                 end
-                    
+                
                 
             end % band
             
         end % layer
         for iB = 1:4
-        for iH = 1:2
-            % Group, Band, LR, Animal, Layer/layer
-            heatmap(squeeze(Co(group,iB,iH,animal,:,:)));
-            pause(1)
+            for iH = 1:2
+                % Group, Band, LR, Animal, Layer/layer
+                heatmap(squeeze(Co(group,iB,iH,animal,:,:)));
+                pause(1)
+            end
         end
-    end
     end % animal
     
 end % group
@@ -184,4 +184,3 @@ switch TD
         name = 'Full';
 end
 save(['C:\Users\user\Documents\MATLAB\Coherence Data\' name],'Co')
-disp('Bing bang boom thats all in the room beybee!')
