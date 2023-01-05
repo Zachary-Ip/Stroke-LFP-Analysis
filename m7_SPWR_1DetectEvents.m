@@ -7,7 +7,7 @@ clear all
 
 load('SpkInfo.mat')
 Fs = 1250;
-filepath = 'C:\Users\user\Documents\MATLAB\Data';
+filepath = 'C:\Users\ipzach\Documents\MATLAB\Data\Chronic Stroke\';
 voltScaler  = 0.000000015624999960550667;
 % define a smoothing kernel
 smoothing_width = 0.01; % 300 ms
@@ -22,7 +22,7 @@ kernel = gaussian(smoothing_width*Fs, ceil(8*smoothing_width*Fs));
 % Overlap during LTD
 SpwrStats.L = [];
 SpwrStats.R = [];
-for group = [1:4 6]
+for group = 3% [1:4 6]
     disp(SpkInfo{group,1})
     for animal = 1:size(SpkInfo{group,2},2)
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

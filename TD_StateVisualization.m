@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %clearvars
 %% Load Files
-filepath = 'C:\Users\ipzach\Documents\MATLAB\stroke_signal_processing';
+filepath = 'C:\Users\ipzach\Documents\MATLAB\Stroke-Signal-Processing';
 cd(filepath)
 load('SpkInfo.mat')
 Fs = 1250;
@@ -17,19 +17,19 @@ kernel2 = gaussian(10*smoothing_width*Fs, ceil(80*smoothing_width*Fs));
 % Control LFP
 
 % group refrences SpkInfo.mat to get the stroke treatment group
-group = 1; %[1:4 6]
+group = 3; %[1:4 6]
 % animal picks which specific animal 
 animal = 7; % [1:size(SpkInfo{i,2},2)
 % Load file
-activefilepath = ['C:\Users\ipzach\Documents\MATLAB\Data\' SpkInfo{group,1} '_' num2str(animal)  '\concatenatedLFP.mat'];
+activefilepath = ['C:\Users\ipzach\Documents\MATLAB\Data\Chronic Stroke\' SpkInfo{group,1} '_' num2str(animal)  '\concatenatedLFP.mat'];
 load(activefilepath);
 
 Control = cLFP(:,SpkInfo{group,2}(animal).R_chn{3}(1));
 
 % Stroke LFP
-group = 3; %[1:4 6] % 3
+group = 7; %[1:4 6] % 3
 animal = 10; % [1:size(SpkInfo{i,2},2) % 10
-activefilepath = ['C:\Users\ipzach\Documents\MATLAB\Data\' SpkInfo{group,1} '_' num2str(animal)  '\concatenatedLFP.mat'];
+activefilepath = ['C:\Users\ipzach\Documents\MATLAB\Data\Chronic Stroke\' SpkInfo{group,1} '_' num2str(animal)  '\concatenatedLFP.mat'];
 load(activefilepath);
 
 Stroke = cLFP(:,SpkInfo{group,2}(animal).R_chn{3}(1));
