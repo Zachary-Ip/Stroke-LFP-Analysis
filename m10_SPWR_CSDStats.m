@@ -3,7 +3,7 @@
 % around with some PCA stuff here I guess? I'll see if I can not crash my
 % computer doing this
 clear all
-LFP_path = 'C:\Users\user\Documents\MATLAB\Data'; % data path
+LFP_path = 'C:\Users\ipzach\Documents\MATLAB\Data\Chronic Stroke\'; % data path
 Fs = 1250;
 voltScaler = 0.000000015624999960550667;
 load('SpkInfo.mat')
@@ -25,7 +25,7 @@ a2nums.rPost = [];
 labels2l = [];
 labels2r = [];
 
-for iGroup = [1:4 6] % For each experimental setup
+for iGroup = [3 6 7 8 10]%[1:4 6] % For each experimental setup
     cd(LFP_path)
     disp(SpkInfo{iGroup,1}) %Readout
     
@@ -218,7 +218,7 @@ labels = {'Control','null','1MS','2WS'};
 [rRipC2,  rRipM2] = multcompare(rRipStats2,'CType','bonferroni','Dimension', [1 2]);
 [rPostC2,rPostM2,~,names2] = multcompare(rPostStats2,'CType','bonferroni','Dimension', [1 2]);
 
-save('C:\Users\user\Documents\MATLAB\Data\CSD Stats.mat','BarInfo',...
+save('C:\Users\user\Documents\MATLAB\output\CSD Stats.mat','BarInfo',...
     'lPreC1','lPreM1','lRipC1','lRipM1','lPostC1','lPostM1','rPreC1','rPreM1','rRipC1','rRipM1','rPostC1','rPostM1',...
     'lPreC2','lPreM2','lRipC2','lRipM2','lPostC2','lPostM2','rPreC2','rPreM2','rRipC2','rRipM2','rPostC2','rPostM2',...
     'names1','names2');

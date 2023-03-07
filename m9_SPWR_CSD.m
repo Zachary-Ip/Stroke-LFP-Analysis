@@ -2,8 +2,8 @@
 % using all ripples in all animals
 clear all
 load('SpkInfo.mat')
-spwrPath = 'C:\Users\user\Documents\MATLAB\SPWR\Rip6_Wave3SD'; % SWR path
-lfpPath = 'C:\Users\user\Documents\MATLAB\Data'; % data path
+spwrPath = 'C:\Users\ipzach\Documents\MATLAB\output\SPWR\Rip6_Wave3SD'; % SWR path
+lfpPath = 'C:\Users\ipzach\Documents\MATLAB\Data\Chronic Stroke\'; % data path
 Fs = 1250;
 voltScaler  = 0.000000015624999960550667;% convert units to volts
 hotcold = redblue(); % Create custom red-white-blue colormap
@@ -13,7 +13,7 @@ hotcold = redblue(); % Create custom red-white-blue colormap
 % Params.fpass = [10 250];
 time = linspace(-1,1,2501);
 % Run through all groups
-for iGroup = [1:4 6]
+for iGroup = [3 6 7 8 10]
     disp(SpkInfo{iGroup,1}) %Readout
     % figure
     counter = 0;

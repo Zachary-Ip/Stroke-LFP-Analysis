@@ -74,18 +74,30 @@ results2way.rLtd = [];
 results2way.rR   = [];
 
 % Pull and process data
-for group = [1:4 6]
+for group = [3 6 8 7 10]
     % 1.Load the right and left side signals
     %     load H/L TD indexes
+    switch group
+        case 3
+            new_group = 1;
+        case 6
+            new_group = 2;
+        case 8
+            new_group = 3;
+        case 7
+            new_group = 4;
+        case 10
+            new_group = 6;
+    end
     for animal = 1: length(SpkInfo{group,2})
         % Define filepath to pull from
-        REM = ['C:\Users\user\Documents\MATLAB\Data' filesep SpkInfo{group,1} '_' num2str(animal) filesep 'cREM.mat'];
+        REM = ['C:\Users\ipzach\Documents\MATLAB\Data\Chronic Stroke' filesep SpkInfo{group,1} '_' num2str(animal) filesep 'cREM.mat'];
         
         % Error checking and exceptions for missing files
         try
             load(REM);
         catch
-            disp('Missing REM File')
+            disp('Rem not loaded')
             continue
         end
         if isempty(cREM.R.start) || isempty(cREM.R.end)
@@ -101,19 +113,24 @@ for group = [1:4 6]
         % REM loaded correctly, process
         % 2way ANOVA
         % only handle controls and 1MS groups
-        if group == 1 || group == 2 || group == 3 || group == 6
+        if new_group == 1 || new_group == 2 || new_group == 3 || new_group == 6
             results2way = analyze(cREM.R, results2way, 'R');
             results2way = analyze(cREM.L, results2way, 'L');
         end
         
         % 1way ANOVA
         % only handle non EE groups
-        if group == 1 || group == 3 || group == 4
-            results1way(group) = analyze(cREM.R, results1way(group), 'R');
-            results1way(group) = analyze(cREM.L, results1way(group), 'L');
+        if new_group == 1 || new_group == 3 || new_group == 4
+            results1way(new_group) = analyze(cREM.R, results1way(new_group), 'R');
+            results1way(new_group) = analyze(cREM.L, results1way(new_group), 'L');
         end
     end % animal
 end % group
+reset = pwd;
+cd('C:\Users\ipzach\Documents\MATLAB\output\Stats');
+save('Raw Vals', 'results1way','results2way');
+cd(reset)
+disp('saved')
 % ONE WAY ANOVA
 lHtd = NaN(87,3);
 lHtd(1:length(results1way(1).lHtd),1) = results1way(1).lHtd;

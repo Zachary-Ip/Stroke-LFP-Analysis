@@ -1,7 +1,7 @@
 % Create a linear ANOVA model to compare different groups
 % All groups separately.
 load('SpkInfo.mat')
-load('C:\Users\user\Documents\MATLAB\Stats\Power\NormalizedPower.mat')
+load('C:\Users\ipzach\Documents\MATLAB\output\Stats\Power\NormalizedPower.mat')
 % [Power][Group][Hemisphere]
 % Control 8:8
 % -- EESham  10:10
@@ -82,12 +82,12 @@ disp('s hgamma')
 [sHGamma.R2,sHGamma.L2] = runAnova2(6,NormalizedPower,stroke,EE,3);
 disp('o hgamma')
 [oHGamma.R2,oHGamma.L2] = runAnova2(6,NormalizedPower,stroke,EE,4);
-save('C:\Users\user\Documents\MATLAB\Stats\Power\anova2stats',...
-    'cDelta','cTheta','cGamma','cHGamma',...
-    'pDelta','pTheta','pGamma','pHGamma',...
-    'sDelta','sTheta','sGamma','sHGamma',...
-    'oDelta','oTheta','oGamma','oHGamma');
-cd('C:\Users\user\Documents\MATLAB\Stats\Power')
+% save('C:\Users\user\Documents\MATLAB\Stats\Power\anova2stats',...
+%     'cDelta','cTheta','cGamma','cHGamma',...
+%     'pDelta','pTheta','pGamma','pHGamma',...
+%     'sDelta','sTheta','sGamma','sHGamma',...
+%     'oDelta','oTheta','oGamma','oHGamma');
+cd('C:\Users\ipzach\Documents\MATLAB\output\Stats\Power')
 
 function [stroke,EE] = labelMaker(lim,prev,stroke,EE,label,treatment)
 for i = 1:lim

@@ -22,7 +22,7 @@ caxis([-0.10 0.10])
 set(gca,'xtick',[],'yticklabel',electrodes)
 ylabel('Electrode')
 hold on
-plot(time,bar_block(1).R_wave,'color',Buz.mBlue)
+plot(time,bar_block(1).R_wave,'color',RGB.c200)
 ylim([-5000 2000])
 
 
@@ -38,7 +38,7 @@ set(gca, 'xtick',[],'ytick', [])
 shading interp, colormap(flipud(hotcold))
 caxis([-0.05 0.05])
 yyaxis right
-plot(time,bar_block(2).R_wave,'color',Buz.mBlue)
+plot(time,bar_block(2).R_wave,'color',RGB.c200)
 ylim([-6e+03 2e+03])
 ylabel('Voltage (\muV)')
 title('EE Control')
@@ -64,11 +64,11 @@ set(gca, 'ytick',[0 0.05 0.1],'xticklabels',labels)
 box off
 sigs = sigstar2(comp_group, stats);
 title('Source-Sink Amplitude')
-hbar.CData(1,:) = Buz.lBlue;
-hbar.CData(2,:) = Buz.lBlue;
-hbar.CData(3,:) = Buz.lYellow;
-hbar.CData(4,:) = Buz.lYellow;
-hbar.CData(5,:) = Buz.lYellow;
+hbar.CData(1,:) = RGB.c200;
+hbar.CData(2,:) = RGB.c200;
+hbar.CData(3,:) = RGB.c200;
+hbar.CData(4,:) = RGB.c200;
+hbar.CData(5,:) = RGB.c200;
 
 % Bottom left box, 1M Strk CSD
 subplot('Position',[0.18 0.1 0.2 0.35])
@@ -76,7 +76,7 @@ pcolor(time,ySize,flipud(bar_block(3).R_CSD'))
 shading interp, colormap(flipud(jet))
 caxis([-0.12 0.12])
 hold on
-plot(time,bar_block(3).R_wave,'color', Buz.mYellow)
+plot(time,bar_block(3).R_wave,'color', RGB.c200)
 set(gca,'yticklabel',electrodes)
 title('1 Month Stroke')
 ylabel('Electrode')
@@ -88,7 +88,7 @@ pcolor(time,ySize,flipud(bar_block(4).R_CSD'))
 shading interp, colormap(flipud(parula))
 caxis([-0.12 0.12])
 hold on
-plot(time,bar_block(4).R_wave,'color',Buz.mYellow)
+plot(time,bar_block(4).R_wave,'color',RGB.c200)
 set(gca,'ytick',[])
 title('2 Week Stroke')
 xlabel('Time (s)')
@@ -102,7 +102,7 @@ set(gca,'ytick',[])
 shading interp, colormap(flipud(hotcold))
 caxis([-0.12 0.12])
 yyaxis right
-plot(time,bar_block(6).R_wave,'color',Buz.mYellow)
+plot(time,bar_block(6).R_wave,'color',RGB.c200)
 ylim([-6e+03 2e+03])
 ylabel('                 Voltage (\muV)')
 
@@ -126,7 +126,7 @@ pcolor(time,ySize,flipud(bar_block(1).L_CSD'))
 shading interp, colormap(flipud(hotcold))
 caxis([-0.12 0.12])
 hold on
-plot(time,bar_block(1).L_wave,'color',RGB.dSky)
+plot(time,bar_block(1).L_wave,'color',RGB.c200)
 set(gca,'xtick',[],'yticklabel',electrodes)
 ylabel('Electrode')
 title('Control')
@@ -138,7 +138,7 @@ pcolor(time,ySize,flipud(bar_block(2).L_CSD'))
 shading interp, colormap(flipud(hotcold))
 caxis([-0.12 0.12])
 hold on
-plot(time,bar_block(2).L_wave,'color',RGB.dSky)
+plot(time,bar_block(2).L_wave,'color',RGB.c200)
 set(gca,'ytick',electrodes)
 axis off
 title('EE Control')
